@@ -30,6 +30,5 @@
     }
   },
   "main" : "./cjs/index.js",
-  "module" : "./mjs/index.js",
-  "sideEffects": false
+  "module" : "./mjs/index.js"
 }
