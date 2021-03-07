@@ -1,34 +1,35 @@
 {
+  "name": "@livingspec/automerge-backend-wasm",
   "collaborators": [
+    "Alex Good <alex@memoryandthought.me>",
     "Orion Henry <orion@inkandswitch.com>",
-    "Alex Good <alex@memoryandthought.me>"
+    "Martin Kleppmann"
   ],
-  "name": "automerge-backend-wasm",
-  "description": "wasm-bindgen bindings to the automerge-backend rust implementation",
-  "version": "0.1.0",
+  "description": "A js/wasm wrapper for the rust implementation of automerge-backend",
+  "version": "0.1.7",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/livingspec/automerge-rs"
+  },
   "files": [
-    "README.md",
-    "pkg.js",
-    "LICENSE",
-    "package.json",
-    "automerge_backend_wasm_bg.wasm",
-    "automerge_backend_wasm.js"
+    "build"
   ],
-  "main": "./dev/index.js",
+  "main": "./build/cjs/index.js",
+  "module": "./build/mjs/index.js",
   "scripts": {
     "cjs-release": "wasm-pack build --target nodejs --release --out-name index -d build/cjs && rm build/cjs/package.json",
-    "mjs-release": "wasm-pack build --target bundler --release --out-name index -d build/mjs && cp package.mjs.json build/mjs/package.json",
+    "mjs-release": "wasm-pack build --target bundler --release --out-name index -d build/mjs && rm build/mjs/package.json && cp build/mjs/index_bg.js build/mjs/index.js",
     "prep-release": "rm build/*/.gitignore build/*/README.md build/*/LICENSE build/*/*.ts",
-    "release": "yarn cjs-release && yarn mjs-release && yarn prep-release && cp package.pkg.json build/package.json && cp README.md LICENSE build",
+    "release": "yarn cjs-release && yarn mjs-release && yarn prep-release",
     "build": "rm -rf dev && wasm-pack build --target nodejs --dev --out-name index -d dev",
     "profiling": "wasm-pack build --target nodejs --profiling --out-name index -d dev",
     "mocha": "yarn build && mocha --bail --full-trace",
     "webpack": "webpack",
     "test": "cargo test && wasm-pack test --node"
   },
-  "dependencies": {},
   "devDependencies": {
     "mocha": "^7.1.1"
-  }
+  },
+  "sideEffects": false
 }
